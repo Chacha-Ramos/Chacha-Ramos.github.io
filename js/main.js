@@ -323,7 +323,7 @@ const renderScene = () => {
     const scene = state.scenes[state.currentScene];
     document.getElementById("narrative-text").innerHTML = `
         <h2>${scene.title}</h2>
-        <p>${scene.description}/p>
+        <p>${scene.description}</p>
     `;
 
     d3.select("#visualization").html("");
