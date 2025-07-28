@@ -11,8 +11,8 @@ function renderScene1() {
         d.co2 = +d.co2;
     });
 
-    const x = d3.scaleTime()
-    .domain(d3.extent(worldData, d => d.year))
+    const x = d3.scaleLinear()
+    .domain([d3.min(worldData, d => d.year), d3.max(worldData, d=> d.year)])
     .range([50, 850]);
 
     const y = d3.scaleLinear()
@@ -42,10 +42,10 @@ function renderScene1() {
         {
             note: {
                 title: "Sharp Increase",
-                label: "Global emissions began rising rapidly in the 1960s"
+                label: "Global emissions began rising rapidly in the 1970s"
             },
             x: x(1960),
-            y: y(worldData.find(d => d.year === 1960).co2),
+            y: y(worldData.find(d => d.year === 1970).co2),
             dy: -50,
             dx: 20
         }
@@ -205,8 +205,9 @@ function renderScene3() {
              },
              x: x(usa['co2_per_capita']),
              y: y(usa.country) + y.bandwidth() / 2,
-             dy: 0,
-             dx: 20
+             dy: -1,
+             dx: 250,
+             color: ['black']
         },
         {
             note: {
@@ -215,8 +216,9 @@ function renderScene3() {
             },
             x: x(russia['co2_per_capita']),
             y: y(russia.country) + y.bandwidth() / 2,
-            dy: 0,
-            dx: 20
+            dy: -1,
+            dx: 450,
+            color: ['black']
         }
     ];
 
