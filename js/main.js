@@ -6,9 +6,8 @@ function renderScene1() {
 
     const worldData = state.data.filter(d => d.country === "World");
 
-    const parseYear = d3.timeParse("%Y");
     worldData.forEach(d => {
-        d.year = parseYear(d.year);
+        d.year = Number(d.year);
         d.co2 = +d.co2;
     });
 
@@ -45,8 +44,8 @@ function renderScene1() {
                 title: "Sharp Increase",
                 label: "Global emissions began rising rapidly in the 1950s"
             },
-            x: x(parseYear("1950")),
-            y: y(worldData.find(d => d.year.getFullYear() === 1950).co2),
+            x: x(1950),
+            y: y(worldData.find(d => d.year === 1950).co2),
             dy: -50,
             dx: 20
         },
@@ -55,8 +54,8 @@ function renderScene1() {
                 title: "Recent Plateau",
                 label: "Emissions growth has slowed in recent years"
             },
-            x: x(parseYear("2010")),
-            y: y(worldData.find(d => d.year.getFullYear() === 2010).co2),
+            x: x(2010),
+            y: y(worldData.find(d => d.year === 2010).co2),
             dy: -30,
             dx: -20
         }
