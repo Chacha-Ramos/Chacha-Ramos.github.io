@@ -1,11 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <meta charset="UTF-8">
         <title>Global Co2 Emissions VIsualization</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/style.css">
+        <script src="https://d3js.org/d3.v7.min.js" />
+        <script src="https://d3js.org/d3-annotation.v2.min.js" />
+        <script src="js/main.js" defer />
+        <script src="js/scenes.js" defer />
     </head>
     <body>
-        <div>
-
+        <div id="narrative-container">
+            <div id="title-screen">
+                <h1>Global CO2 Emissions: A visual narrative</h1>
+                <p>An interactive exploration of carbon dioxide emissions worldwide</p>
+                <button id="start-btn">Begin Exploration</button>
+            </div>
+            <div id="scene-container" class="hidden">
+                <div id="scene-nav">
+                    <button id="prev-btn">Go back</button>
+                    <span id="scene-indicator">Scene 1 of 4</span>
+                    <button id="next-btn">Next</button>
+                </div>
+                <div id="visualization"></div>
+                <div id="narrative-text"></div>
+            </div>
         </div>
     </body>
 </html>
