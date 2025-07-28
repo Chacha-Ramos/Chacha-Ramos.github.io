@@ -1,5 +1,3 @@
-import { renderScene1, renderScene2, renderScene3, renderScene4  } from "./scenes"
-
 const state = {
     currentScene: 0,
     selectedCountry: null,

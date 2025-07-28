@@ -1,4 +1,4 @@
-export function renderScene1() {
+function renderScene1() {
     const svg = d3.select('#visualization')
     .append('svg')
     .attr('width', 900)
@@ -67,7 +67,7 @@ export function renderScene1() {
     svg.append('g').attr('class', 'annotation-group').call(makeAnnotations);
 }
 
-export function renderScene2() {
+function renderScene2() {
     const svg = d3.select('#visualization')
     .append('svg')
     .attr('width', 900)
@@ -108,7 +108,7 @@ export function renderScene2() {
     .text('Click on a country to select it');
 }
 
-export function renderScene3() {
+function renderScene3() {
     const svg = d3.select('#visualization')
     .append('svg')
     .attr('width', 900)
@@ -182,7 +182,7 @@ export function renderScene3() {
     svg.append('g').attr('class', 'annotation-group').call(makeAnnotations);
 }
 
-export function renderScene4() {
+function renderScene4() {
     const svg = d3.select('#visualization')
     .append('svg')
     .attr('width', 900)
