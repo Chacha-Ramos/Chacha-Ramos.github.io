@@ -42,12 +42,13 @@ function renderScene1() {
         {
             note: {
                 title: "Sharp Increase",
-                label: "Global emissions began rising rapidly in the 1970s"
+                label: "Global emissions began rising rapidly in the 1960s"
             },
-            x: x(1970),
-            y: y(worldData.find(d => d.year === 1970).co2),
+            x: x(1960),
+            y: y(worldData.find(d => d.year === 1960).co2),
             dy: -50,
-            dx: 20
+            dx: -20,
+            color: ['black']
         }
     ];
 
