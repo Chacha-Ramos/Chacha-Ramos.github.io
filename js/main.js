@@ -20,11 +20,11 @@ function renderScene1() {
     .range([450, 50]);
 
     svg.append('g')
-    .attr('transform', 'translate(0, 450)')
+    .attr('transform', 'translate(100, 450)')
     .call(d3.axisBottom(x));
 
     svg.append('g')
-    .attr('transform', 'translate(50, 0)')
+    .attr('transform', 'translate(150, 0)')
     .call(d3.axisLeft(y));
 
     const line = d3.line()
@@ -67,44 +67,98 @@ function renderScene1() {
 }
 
 function renderScene2() {
-    const svg = d3.select('#visualization')
-    .append('svg')
-    .attr('width', 900)
-    .attr('height', 500);
+    d3.select("#visualization").html("");
+    
+    const svg = d3.select("#visualization")
+        .append("svg")
+        .attr("width", 1200)
+        .attr("height", 500);
+    
+    const latestYear = d3.max(state.data, d => d.year);
+    const topEmitters = state.data
+        .filter(d => d.year === latestYear && d.country !== "World")
+        .sort((a, b) => b.co2 - a.co2)
+        .slice(0, 20);
 
-    svg.append('text')
-    .attr('x', 450)
-    .attr('y', 30)
-    .attr('text-anchor', 'middle')
-    .text('CO2 Emissions by Country');
+    const x = d3.scaleLinear()
+        .domain([0, d3.max(topEmitters, d => +d.co2)])
+        .range([50, 850]);
+    
+    const y = d3.scaleBand()
+        .domain(topEmitters.map(d => d.country))
+        .range([50, 450])
+        .padding(0.2);
 
-    const legend = svg.append('g').attr('transform', 'translate(750, 100)');
+    svg.selectAll("rect")
+        .data(topEmitters)
+        .enter().append("rect")
+        .attr("x", 150)
+        .attr("y", d => y(d.country))
+        .attr("width", d => x(d.co2) - 50)
+        .attr("height", y.bandwidth())
+        .attr("fill", d => d3.interpolateReds(d.co2 / d3.max(topEmitters, d => +d.co2) * 0.8 + 0.2))
+        .on("mouseover", function(event, d) {
+            d3.select(this).attr("opacity", 0.8);
+            tooltip
+                .style("opacity", 1)
+                .html(`${d.country}<br>${d.co2} kt CO₂`);
+        })
+        .on("mouseout", function() {
+            d3.select(this).attr("opacity", 1);
+            tooltip.style("opacity", 0);
+        })
+        .on("click", function(event, d) {
+            state.selectedCountry = d.country;
+            updateSelectedCountry(d);
+        });
 
-    const colorScale = d3.scaleSequential(d3.interpolateReds)
-    .domain([0, d3.max(state.data, d => +d.co2)]);
+    svg.append("g")
+        .attr("transform", "translate(100,450)")
+        .call(d3.axisBottom(x).tickFormat(d3.format(".2s")));
+    
+    svg.append("g")
+        .attr("transform", "translate(150,0)")
+        .call(d3.axisLeft(y));
 
-    const legendScale = d3.scaleLinear()
-    .domain(colorScale.domain())
-    .range([0, 100]);
+    svg.append("text")
+        .attr("x", 450)
+        .attr("y", 30)
+        .attr("text-anchor", "middle")
+        .style("font-size", "18px")
+        .text(`Top 20 CO₂ Emitting Countries (${latestYear})`);
 
-    legend.selectAll('rect')
-    .data(d3.range(0, 1.1, 0.1))
-    .enter().append('rect')
-    .attr('x', 0)
-    .attr('y', d => d * 100)
-    .attr('width', 20)
-    .attr('height', 10)
-    .attr('fill', d => colorScale(d * d3.max(state.data, d => +d.co2)));
+    const tooltip = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
 
-    legend.append('g')
-    .attr('transform', 'translate(25,0)')
-    .call(d3.axisRight(legendScale));
+    svg.append("text")
+        .attr("x", 450)
+        .attr("y", 480)
+        .attr("text-anchor", "middle")
+        .style("font-size", "14px")
+        .text("Click on a country to select it for comparison");
 
-    svg.append('text')
-    .attr('x', 450)
-    .attr('y', 480)
-    .attr('text-anchor', 'middle')
-    .text('Click on a country to select it');
+    function updateSelectedCountry(countryData) {
+        d3.selectAll(".selected-bar").remove();
+        
+        svg.append("rect")
+            .attr("x", 50)
+            .attr("y", y(countryData.country))
+            .attr("width", x(countryData.co2) - 50)
+            .attr("height", y.bandwidth())
+            .attr("fill", "none")
+            .attr("stroke", "#003366")
+            .attr("stroke-width", 3)
+            .attr("class", "selected-bar");
+        
+        document.getElementById("narrative-text").innerHTML += `
+            <div class="country-selection">
+                <h3>Selected: ${countryData.country}</h3>
+                <p>Total emissions: ${countryData.co2} kt CO₂</p>
+                <p>Per capita: ${countryData["co2_per_capita"]} tons</p>
+            </div>
+        `;
+    }
 }
 
 function renderScene3() {
@@ -134,11 +188,11 @@ function renderScene3() {
     .padding(0.2);
 
     svg.append('g')
-    .attr('transform', 'translate(0, 450)')
+    .attr('transform', 'translate(100, 450)')
     .call(d3.axisBottom(x));
 
     svg.append('g')
-    .attr('transform', 'translate(50, 0)')
+    .attr('transform', 'translate(150, 0)')
     .call(d3.axisLeft(y));
 
     svg.selectAll('rect')
