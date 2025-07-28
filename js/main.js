@@ -20,11 +20,11 @@ function renderScene1() {
     .range([450, 50]);
 
     svg.append('g')
-    .attr('transform', 'translate(100, 450)')
+    .attr('transform', 'translate(0, 450)')
     .call(d3.axisBottom(x));
 
     svg.append('g')
-    .attr('transform', 'translate(150, 0)')
+    .attr('transform', 'translate(50, 0)')
     .call(d3.axisLeft(y));
 
     const line = d3.line()
@@ -42,22 +42,12 @@ function renderScene1() {
         {
             note: {
                 title: "Sharp Increase",
-                label: "Global emissions began rising rapidly in the 1950s"
+                label: "Global emissions began rising rapidly in the 1960s"
             },
-            x: x(1950),
-            y: y(worldData.find(d => d.year === 1950).co2),
+            x: x(1960),
+            y: y(worldData.find(d => d.year === 1960).co2),
             dy: -50,
             dx: 20
-        },
-        {
-            note: {
-                title: "Recent Plateau",
-                label: "Emissions growth has slowed in recent years"
-            },
-            x: x(2010),
-            y: y(worldData.find(d => d.year === 2010).co2),
-            dy: -30,
-            dx: -20
         }
     ];
 
@@ -198,14 +188,14 @@ function renderScene3() {
     svg.selectAll('rect')
     .data(top20)
     .enter().append('rect')
-    .attr('x', 50)
+    .attr('x', 150)
     .attr('y', d => y(d.country))
     .attr('width', d => x(d["co2_per_capita"]) - 50)
     .attr('height', y.bandwidth())
     .attr('fill', 'steelblue');
 
     const usa = top20.find(d => d.country === 'United States');
-    const china = top20.find(d => d.country === 'China');
+    const russia = top20.find(d => d.country === 'Russia');
 
     const annotations = [
         {
@@ -221,10 +211,10 @@ function renderScene3() {
         {
             note: {
                 title: "Lower per Capita",
-                label: "Despite high total emissions, per capita is lower in China"
+                label: "Despite high total emissions, per capita is lower in Russia"
             },
-            x: x(china['co2_per_capita']),
-            y: y(china.country) + y.bandwidth() / 2,
+            x: x(russia['co2_per_capita']),
+            y: y(russia.country) + y.bandwidth() / 2,
             dy: 0,
             dx: 20
         }
